@@ -25,6 +25,7 @@ include build/var_subst.inc
 MAINTAINERCLEANFILES = \
 	config.log \
 	config.status \
+	$(srcdir)/build/m4/version.m4 \
 	$(srcdir)/ABOUT-NLS \
 	$(srcdir)/aclocal.m4 \
 	$(srcdir)/autom4te.cache \
@@ -43,6 +44,7 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
+	VERSION \
 	ovirt-hosted-engine-ha.spec.in \
 	$(NULL)
 
@@ -81,6 +83,9 @@ rpm:	srpm
 test:
 	nosetests .
 
+VERSION:
+	@echo -n "$(PACKAGE_VERSION)" >VERSION
+
 clean-local:
 	rm -fr "$(TMPREPOS)"
 	rm -fr target
@@ -93,4 +98,3 @@ maintainer-clean-local:
 fsm:
 	PYTHONPATH=. python build/build-aux/gen_gv.py > doc/agent-fsm.gv
 	dot doc/agent-fsm.gv -Tpng -o doc/agent-fsm.png
-

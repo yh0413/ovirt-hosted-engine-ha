@@ -1,0 +1,71 @@
+This README documents the release process of ovirt-hosted-engine-ha
+from the upstream maintainer's perspective.
+
+Building steps
+==============
+
+1) configure the build
+
+./autogen.sh           (for local testing)
+ or
+./autogen.sh --system  (for system-wide deployment)
+
+This will prepare all needed files including the version
+information. If a version is changed (git tag is added),
+the script has to be called again to update the build scripts.
+
+2) build using standard make
+
+make
+
+3) create the distribution tarball and rpms
+
+make dist
+make rpm
+
+Versioning
+==========
+
+Version is automatically inferred from the most
+recent git tag with the X.Y* form.
+
+If git is not available the version will be read from
+the VERSION file. However this file is only present
+in the distribution tarballs.
+
+X is the major version, should be increased when a
+very disruptive change happens or the API or architecture
+is changed too much.
+
+Y is the minor version that should be increased any
+time a change is made.
+
+There are two version formats:
+
+- If the tag is at the last commit: X.Y.Z*
+  Examples: 1.1, 1.5.65, 0.1, 0.1.3.5
+
+- If the tag is on some previous commit: X.Y.0.<count>.<githash>
+  - count specifies the number of commits since last tag
+  - git hash is the abbreviated commit id of the HEAD
+  Example: 1.1.0.1.g9e1bafc
+
+If a branch is created and diverges from the master,
+additional number has to be added to the version and
+a tag has to be created on that branch for the above
+automatic to work properly:
+
+X.Y will becomes X.Y.0
+X.Y.Z becomes X.Y.Z.0
+
+The meaning of this is that the beginning represents
+the version the branch was based on and the last digit
+represents the updates to this specific branch.
+
+Changelog
+=========
+
+Before you tag a commit in git, make sure the changelog
+entry for the proper version is updated in
+ovirt-hosted-engine-ha.spec.in
+

@@ -23,6 +23,14 @@
 # - automake
 # - gettext-devel
 
+if git status; then
+    GITVER=$(git describe  --match='[[:digit:]].[[:digit:]]*' --tags | tr -d '\n' | sed 's/-/.0./' | tr - .)
+    echo "define([VERSION_NUMBER], [$GITVER])" >build/m4/version.m4
+else
+    GITVER=$(cat VERSION | tr -d '\n')
+    echo "define([VERSION_NUMBER], [$GITVER])" >build/m4/version.m4
+fi
+
 autoreconf -ivf
 
 if test "x$1" = "x--system"; then

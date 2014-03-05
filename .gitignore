@@ -13,6 +13,7 @@
 /tmp.repos/
 
 # Autotools
+/VERSION
 /Makefile
 /Makefile.in
 /aclocal.m4
@@ -22,6 +23,7 @@
 /build/Makefile
 /build/Makefile.in
 /build/build-aux/
+/build/m4/version.m4
 /config.log
 /config.status
 /configure

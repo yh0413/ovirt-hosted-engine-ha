@@ -17,8 +17,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-%global         package_version @PACKAGE_VERSION@
-%global         package_name @PACKAGE_NAME@
 %global         engine_ha_bindir  @ENGINE_HA_BINDIR@
 %global         engine_ha_confdir @ENGINE_HA_CONFDIR@
 %global         engine_ha_libdir  %{python_sitelib}/ovirt_hosted_engine_ha
@@ -35,11 +33,14 @@
 
 Summary:        oVirt Hosted Engine High Availability Manager
 Name:           @PACKAGE_NAME@
-Version:        @PACKAGE_RPM_VERSION@
-Release:        @PACKAGE_RPM_RELEASE@%{?release_suffix}%{?dist}
+Version:        @PACKAGE_VERSION@
+
+# Upstream release must bump the version. Release tag is used
+# by downstream package maintainers only!
+Release:        1%{?dist}
 License:        LGPLv2+
 URL:            http://www.ovirt.org
-Source:         http://resources.ovirt.org/releases/nightly/src/%{name}-%{package_version}.tar.gz
+Source:         http://resources.ovirt.org/releases/nightly/src/%{name}-%{version}.tar.gz
 Group:          Applications/System
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -68,7 +69,7 @@ Hosted engine manager for oVirt project.
 
 
 %prep
-%setup -q -n %{name}-%{package_version}
+%setup -q -n %{name}-%{version}
 
 
 %build

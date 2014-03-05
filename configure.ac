@@ -18,18 +18,10 @@ dnl Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 dnl
 AC_PREREQ(2.60)
 
-define([VERSION_MAJOR], [1])
-define([VERSION_MINOR], [1])
-define([VERSION_FIX], [0])
-define([VERSION_NUMBER], VERSION_MAJOR[.]VERSION_MINOR[.]VERSION_FIX)
-define([VERSION_RELEASE], [0.0])
-define([VERSION_SUFFIX], [master.][m4_esyscmd([date -u +%Y%m%d%H%M%S | tr -d '\n'])])
+m4_include([build/m4/version.m4])
 
-AC_INIT([ovirt-hosted-engine-ha], VERSION_NUMBER[-]VERSION_RELEASE[.]VERSION_SUFFIX)
-PACKAGE_RPM_VERSION="VERSION_NUMBER"
-PACKAGE_RPM_RELEASE="VERSION_RELEASE.VERSION_SUFFIX"
-AC_SUBST([PACKAGE_RPM_VERSION])
-AC_SUBST([PACKAGE_RPM_RELEASE])
+AC_INIT([ovirt-hosted-engine-ha], VERSION_NUMBER)
+AC_SUBST([VERSION_NUMBER])
 
 AC_CONFIG_AUX_DIR([build/build-aux])
 AC_CONFIG_MACRO_DIR([build/m4])
