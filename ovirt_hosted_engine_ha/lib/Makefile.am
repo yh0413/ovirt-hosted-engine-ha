@@ -33,6 +33,8 @@ dist_halib_PYTHON = \
 	metadata.py \
 	util.py \
 	vds_client.py \
+	storage_backends.py \
+	storage_backends_test.py \
 	$(NULL)
 
 SUBDIRS = \

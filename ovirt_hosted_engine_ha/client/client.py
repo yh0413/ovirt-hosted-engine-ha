@@ -18,7 +18,6 @@
 #
 
 import logging
-import os
 import time
 
 from ..agent import constants as agent_constants
@@ -81,22 +80,7 @@ class HAClient(object):
             self._config = config.Config()
         broker = brokerlink.BrokerLink()
         with broker.connection():
-            stats = broker.get_stats_from_storage(
-                path.get_metadata_path(self._config),
-                constants.SERVICE_TYPE)
-
-        return self._parse_stats(stats, mode)
-
-    def get_all_stats_direct(self, dom_path, service_type, mode=StatModes.ALL):
-        """
-        Like get_all_stats(), but bypasses broker by directly accessing
-        storage.
-        """
-        from ..broker import storage_broker
-
-        sb = storage_broker.StorageBroker()
-        path = os.path.join(dom_path, constants.SD_METADATA_DIR)
-        stats = sb.get_raw_stats_for_service_type(path, service_type)
+            stats = broker.get_stats_from_storage(constants.SERVICE_TYPE)
 
         return self._parse_stats(stats, mode)
 
@@ -136,16 +120,6 @@ class HAClient(object):
         """
         return self.get_all_stats(self.StatModes.HOST)
 
-    def get_all_host_stats_direct(self, dom_path, service_type):
-        """
-        Like get_all_host_stats(), but bypasses broker by directly accessing
-        storage.
-        """
-        return self.get_all_stats_direct(
-            dom_path,
-            service_type,
-            self.StatModes.HOST)
-
     def set_global_md_flag(self, flag, value):
         """
         Connects to HA broker and sets flags in global metadata, leaving
@@ -169,9 +143,7 @@ class HAClient(object):
 
         broker = brokerlink.BrokerLink()
         with broker.connection():
-            all_stats = broker.get_stats_from_storage(
-                path.get_metadata_path(self._config),
-                constants.SERVICE_TYPE)
+            all_stats = broker.get_stats_from_storage(constants.SERVICE_TYPE)
 
             global_stats = all_stats.get(0)
             if global_stats and len(global_stats):
@@ -200,9 +172,7 @@ class HAClient(object):
         host_id = int(self._config.get(config.ENGINE, config.HOST_ID))
         broker = brokerlink.BrokerLink()
         with broker.connection():
-            stats = broker.get_stats_from_storage(
-                path.get_metadata_path(self._config),
-                constants.SERVICE_TYPE)
+            stats = broker.get_stats_from_storage(constants.SERVICE_TYPE)
 
         score = 0
         if host_id in stats:
