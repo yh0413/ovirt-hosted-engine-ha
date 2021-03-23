@@ -32,6 +32,7 @@ MOUNT_DIR = {
     "nfs": "",
     "nfs3": "",
     "nfs4": "",
+    "posixfs": "",
     "glusterfs": "glusterSD"
 }
 
@@ -50,6 +51,17 @@ def canonize_file_path(storage_type, remote_path, sduuid):
         sduuid,
     )
 
+def get_mount_target(config_):
+    cli = util.connect_vdsm_json_rpc(
+        logger=None,
+        timeout=constants.VDSCLI_SSL_TIMEOUT
+    )
+    sd_uuid = config_.get(config.ENGINE, config_constants.SD_UUID)
+    try:
+        response = cli.StorageDomain.getInfo(storagedomainID=sd_uuid)
+        return response['remotePath'],
+    except (ServerError, KeyError):
+        pass
 
 def get_domain_path(config_):
     """
@@ -67,6 +79,7 @@ def get_domain_path(config_):
         constants.DOMAIN_TYPE_NFS,
         constants.DOMAIN_TYPE_NFS3,
         constants.DOMAIN_TYPE_NFS4,
+        constants.DOMAIN_TYPE_POSIXFS,
         constants.DOMAIN_TYPE_GLUSTERFS,
     ):
         try:

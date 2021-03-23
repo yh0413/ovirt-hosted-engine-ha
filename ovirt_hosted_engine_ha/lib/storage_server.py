@@ -111,6 +111,9 @@ class StorageServer(object):
         elif self._domain_type == constants.DOMAIN_TYPE_NFS4:
             storageType = constants.STORAGE_TYPE_NFS
             conDict['protocol_version'] = '4'
+        elif self._domain_type == constants.DOMAIN_TYPE_POSIXFS:
+             storageType = constants.STORAGE_TYPE_POSIXFS
+             conDict['vfs_type'] = 'ceph'
         elif self._domain_type == constants.DOMAIN_TYPE_GLUSTERFS:
             storageType = constants.STORAGE_TYPE_GLUSTERFS
             conDict['vfs_type'] = 'glusterfs'
@@ -304,6 +307,17 @@ class StorageServer(object):
                 path = self._fix_filebased_connection_path()
                 conList[0]['connection'] = path
                 self._validate_pre_connected_path(cli, path)
+        elif self._domain_type == constants.DOMAIN_TYPE_POSIXFS:
+            conList, storageType = self._get_conlist_nfs_gluster()
+            if normalize_path:
+                path = self._fix_filebased_connection_path()
+                conList[0]['connection'] = path
+                self._validate_pre_connected_path(cli, path)
+            target_path = env_path.get_mount_target(self._config)
+            if target_path is None:
+                conList[0]['connection'] = self._storage
+            else:
+                conList[0]['connection'] = env_path.get_mount_target(self._config)[0]
         elif self._domain_type == constants.DOMAIN_TYPE_ISCSI:
             conList, storageType = self._get_conlist_iscsi()
         elif self._domain_type == constants.DOMAIN_TYPE_FC:
