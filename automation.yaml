@@ -1,8 +1,8 @@
 ---
 archs:
   - x86_64:
-      distro: [el8]
+      distro: [el8stream]
 
 release_branches:
-  master:
-    - ovirt-master
+  ovirt-4.4:
+    - ovirt-4.4
