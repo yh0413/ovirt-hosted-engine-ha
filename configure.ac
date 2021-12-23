@@ -22,7 +22,7 @@ define([VERSION_MAJOR], [2])
 define([VERSION_MINOR], [4])
 define([VERSION_FIX], [9])
 define([VERSION_NUMBER], VERSION_MAJOR[.]VERSION_MINOR[.]VERSION_FIX)
-define([VERSION_RELEASE], [supervm.dev])
+define([VERSION_RELEASE], [supervm.21.0.1])
 
 AC_INIT([ovirt-hosted-engine-ha], VERSION_NUMBER[-]VERSION_RELEASE)
 PACKAGE_RPM_VERSION="VERSION_NUMBER"
